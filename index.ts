@@ -30,7 +30,7 @@ app.use(express.json());
 // .catch((err: any) => console.log(err));
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('frontend/build', 'index.html'));
+    app.use(express.static(path.join('frontend/build/', 'index.html')));
     // app.get('*', (res: any) => {
     //   res.sendFile(path.join('../frontend/build', 'index.html'));
     // });
