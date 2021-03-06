@@ -2,6 +2,7 @@ export{}
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 //u need a body parser to handle multi-part requests
 const bodyParser = require("body-parser");
 //
@@ -28,6 +29,20 @@ app.use(express.json());
 
 // mongoose.connect(mongoURI, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
 // .catch((err: any) => console.log(err));
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('../frontend/build', 'index.html'));
+    app.get('*', (res: any) => {
+      res.sendFile(path.join('../frontend/build', 'index.html'));
+    });
+  }
+
+//   app.get("*", (req, res) => {
+//     let url = path.join(__dirname, '../client/build', 'index.html');
+//     if (!url.startsWith('/app/')) // since we're on local windows
+//       url = url.substring(1);
+//     res.sendFile(url);
+//   });
 
 //Routes
 app.use("/task", taskRouter);
