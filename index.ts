@@ -19,7 +19,6 @@ const app = express();
 //Middleware
 app.use(methodOverride("_method"));
 app.use(bodyParser.json());
-
 app.use(cors());
 
 app.use(express.json());
@@ -30,17 +29,12 @@ app.use(express.json());
 // .catch((err: any) => console.log(err));
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join('frontend/build/', 'index.html')));
-    // app.get('*', (res: any) => {
-    //   res.sendFile(path.join('../frontend/build', 'index.html'));
-    // });
+    app.use(express.static(path.join(__dirname, "frontend", 'build')));
+
+    app.get('*', (res: any) => {
+      res.sendFile(path.join(__dirname, "frontend", "build", 'index.html'));
+    });
   }
-else{
-    app.use(express.json());
-}
-
-
-
 
 //Routes
 app.use("/task", taskRouter);
