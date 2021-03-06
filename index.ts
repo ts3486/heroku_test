@@ -8,19 +8,13 @@ const bodyParser = require("body-parser");
 //
 const methodOverride = require("method-override")
 
-// const { Server } = require('ws');
-
-// const wss = new Server({ Server });
-
-
 const taskRouter = require("./routes/function");
 
 //config (to refer to keys without explicitly showing on files)
 // const config = require("config");
 
 
-const app = express()
-.use((res: any) => res.sendFile("frontend/build/index.html", { root: __dirname }));
+const app = express();
 
 //Middleware
 app.use(methodOverride("_method"));
@@ -35,24 +29,18 @@ app.use(express.json());
 // mongoose.connect(mongoURI, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
 // .catch((err: any) => console.log(err));
 
-// if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static('../frontend/build', 'index.html'));
-//     app.get('*', (res: any) => {
-//       res.sendFile(path.join('../frontend/build', 'index.html'));
-//     });
-//   }
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('frontend/build', 'index.html'));
+    // app.get('*', (res: any) => {
+    //   res.sendFile(path.join('../frontend/build', 'index.html'));
+    // });
+  }
+else{
+    app.use(express.json());
+}
 
-//   app.get("*", (req, res) => {
-//     let url = path.join(__dirname, '../client/build', 'index.html');
-//     if (!url.startsWith('/app/')) // since we're on local windows
-//       url = url.substring(1);
-//     res.sendFile(url);
-//   });
 
-// wss.on('connection', (ws: any) => {
-//     console.log('Client connected');
-//     ws.on('close', () => console.log('Client disconnected'));
-//   });
+
 
 //Routes
 app.use("/task", taskRouter);
